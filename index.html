@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tarjetas DATOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light dark;--bg:light-dark(#f6f1e7,#16181d);--panel:light-dark(#fffdf8,#20242b);--ink:light-dark(#1d2430,#eceff4);--mute:light-dark(#5b6270,#a9b0bc);--line:light-dark(#e2d9c8,#343a44);--red:#d7263d;--blue:light-dark(#2f5b9a,#7fa8e6)}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Atkinson Hyperlegible",system-ui,sans-serif;overflow-x:clip}
+.band{padding:clamp(20px,3.5vw,48px) max(5vw,16px);max-width:1240px;margin:0 auto}
+h1{font:700 clamp(32px,5vw,48px)/1.05 Fredoka,sans-serif;margin:0 0 6px;text-wrap:balance}
+h1 span{color:var(--red)}
+.lead{margin:0 0 20px;color:var(--mute);max-width:62ch}
+.ctl{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
+.grp>b{display:block;font-size:14px;margin-bottom:6px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg label{position:relative}
+.seg input{position:absolute;opacity:0;inset:0}
+.seg span{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:44px;padding:0 12px;border:2px solid var(--line);border-radius:12px;font:600 17px Fredoka,sans-serif;cursor:pointer;background:var(--bg)}
+.seg input:checked+span{background:var(--blue);border-color:var(--blue);color:#fff}
+.seg input:focus-visible+span{outline:3px solid var(--red);outline-offset:2px}
+.seg label[hidden]{display:none}
+select{font:16px inherit;height:44px;padding:0 10px;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--ink);width:100%}
+.chk{display:flex;align-items:center;gap:10px;min-height:44px;cursor:pointer}
+.chk input{width:22px;height:22px;accent-color:var(--blue)}
+.acts{display:flex;flex-wrap:wrap;gap:10px;align-items:center;grid-column:1/-1}
+button{font:700 16px "Atkinson Hyperlegible",sans-serif;min-height:44px;padding:0 18px;border-radius:12px;border:2px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+button.main{background:var(--red);border-color:var(--red);color:#fff}
+button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+button:disabled{opacity:.5;cursor:wait}
+#st{color:var(--mute);font-size:14px}
+.dua{margin-top:18px;background:var(--panel);border:1px solid var(--line);border-left:6px solid var(--blue);border-radius:18px;padding:18px 20px}
+.dua h2{font:600 24px/1.1 Fredoka,sans-serif;margin:0 0 10px}
+.dua ol{margin:0 0 12px;padding-left:1.4em}.dua li{margin:4px 0}
+.leg{display:flex;flex-wrap:wrap;gap:8px 18px;margin:8px 0 12px}
+.leg span{white-space:nowrap}.leg i{font:700 20px Fredoka,sans-serif;font-style:normal;color:var(--blue);margin-right:4px}
+.ex{background:var(--bg);border-radius:12px;padding:12px 14px;margin:0 0 12px}
+.preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,420px),1fr));gap:24px;margin-top:24px}
+.frame{position:relative;aspect-ratio:794/1123;overflow:hidden;border-radius:6px;box-shadow:0 1px 0 var(--line),0 10px 28px rgb(0 0 0/.14);background:#fff}
+.frame>.sheet{position:absolute;top:0;left:0;transform:scale(var(--s,.5));transform-origin:0 0}
+#off{position:fixed;left:-10000px;top:0;width:794px}
+.sheet{width:794px;height:1123px;background:#fff;color:#22252b;padding:34px 36px;display:flex;flex-direction:column;gap:14px;font-family:"Atkinson Hyperlegible",sans-serif}
+.sh{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;font-size:15px;border-bottom:2px solid #22252b;padding-bottom:8px}
+.sh b{font:600 20px Fredoka,sans-serif}
+.grid{flex:1;min-height:0;display:grid;gap:16px}
+.p2 .grid{grid-template-columns:1fr;grid-template-rows:repeat(2,minmax(0,1fr))}
+.p4 .grid{grid-template-columns:1fr 1fr;grid-template-rows:repeat(2,minmax(0,1fr))}
+.p6 .grid{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,minmax(0,1fr))}
+.card{position:relative;border:2.5px dashed #9aa0aa;border-radius:20px;padding:18px 18px 16px;overflow:hidden;display:flex;flex-direction:column;--fs:54px}
+.p2 .card{--fs:76px}.p6 .card{--fs:42px}
+.d.p2 .card{--fs:58px}.d.p4 .card{--fs:38px}
+.tit{font:700 calc(var(--fs)*.6)/1 Fredoka,sans-serif;text-align:center;text-decoration:underline;text-decoration-thickness:4px;text-underline-offset:8px;margin:2px 0 .5em;letter-spacing:.02em}
+.rows{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:.28em;font-size:var(--fs)}
+.d .rows{flex:0 0 auto}
+.row{display:flex;align-items:center;gap:.22em;white-space:nowrap;width:max-content;line-height:1.1}
+.e{font-size:1.02em;line-height:1}
+.n{font:600 1em Fredoka,sans-serif;color:#2d3038}
+.o{font:700 1em Fredoka,sans-serif}
+.o.x{color:#d7263d}.o.dv{color:#7a3fb0}.o.ps{color:#1f8a4c}.o.mn{color:#d7263d}.o.eq{color:#2d3038}
+.l{font:700 1.05em Fredoka,sans-serif;color:#2f5b9a}
+.q{font:700 .9em Fredoka,sans-serif;color:#d7263d;border:3px dashed #2f5b9a;border-radius:.2em;padding:0 .4em;line-height:1.15}
+.num{position:absolute;top:10px;left:14px;font:600 15px Fredoka,sans-serif;color:#8a909a}
+.txt{font-size:18px;line-height:1.45;margin:.7em 0 .5em}
+.p2 .txt{font-size:21px}
+.hint{font-size:15px;font-weight:700;color:#2f5b9a;background:#eaf1fb;border-radius:8px;padding:4px 10px;align-self:flex-start;margin-bottom:8px}
+.work{flex:1;min-height:60px;border:2px solid #c9ced6;border-radius:10px;padding:4px 10px;font-size:14px;color:#7a808a}
+.sol{font-size:17px;margin-top:8px}
+.spk{position:absolute;top:8px;right:10px;width:64px;height:64px;padding:0;border-radius:50%;border:none;background:#2f5b9a;color:#fff;display:grid;place-items:center}
+.spk svg{width:34px;height:34px}
+.ft{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;border-top:2px solid #22252b;padding-top:8px}
+.ft span{white-space:nowrap}.ft i{font-style:normal;font-weight:700;background:#22252b;color:#fff;border-radius:50%;display:inline-grid;place-items:center;width:20px;height:20px;font-size:12px;margin-right:4px}
+.sols{display:grid;grid-template-columns:1fr 1fr;gap:8px 28px;font-size:17px;align-content:start}
+.sols div{border-bottom:1px solid #dde1e6;padding:6px 0}.sols b{font-family:Fredoka;display:inline-block;width:2.2em}
+@media print{body>*:not(#off){display:none}}
+</style>
+</head>
+<body>
+<header class="band" style="padding-bottom:0">
+  <h1>Tarjetas <span>DATOS</span></h1>
+  <p class="lead">Problemas con dibujos para Primaria. Elige curso y operaciones, genera folios nuevos las veces que quieras y descárgalos en PDF.</p>
+</header>
+<main class="band" style="padding-top:0">
+  <form class="ctl" id="f">
+    <div class="grp"><b>Curso</b><div class="seg" id="lv"></div></div>
+    <div class="grp"><b>Operaciones</b><div class="seg" id="ops"></div></div>
+    <div class="grp"><b>Tarjetas por folio</b>
+      <select id="per"><option value="2">2 (grandes)</option><option value="4" selected>4</option><option value="6">6</option></select></div>
+    <div class="grp"><b>Número de folios</b>
+      <select id="sheets"></select></div>
+    <div class="grp"><b>Opciones</b>
+      <label class="chk"><input type="checkbox" id="dua"> Modo DUA</label>
+      <label class="chk" id="hintW" hidden><input type="checkbox" id="hint" checked> Pista de operación</label>
+      <label class="chk"><input type="checkbox" id="solu" checked> Hoja de soluciones</label></div>
+    <div class="acts">
+      <button type="button" id="gen">Nuevas tarjetas</button>
+      <button type="button" class="main" id="pdf">Descargar PDF</button>
+      <span id="st" role="status"></span>
+    </div>
+  </form>
+  <section class="dua" id="duaBox" hidden>
+    <h2>Cómo se resuelve una tarjeta</h2>
+    <ol>
+      <li><b>Leo</b> la tarjeta despacio. Si me cuesta, pulso el altavoz y la escucho.</li>
+      <li><b>Busco los datos:</b> los números y los dibujos de debajo de «DATOS».</li>
+      <li><b>Pienso qué me preguntan:</b> lo que hay en el recuadro con <b style="color:var(--red)">?</b></li>
+      <li><b>Elijo la operación:</b> juntar es sumar, quitar es restar, grupos iguales es multiplicar y repartir es dividir.</li>
+      <li><b>Calculo</b> en el recuadro «Operación» y <b>reviso</b> si el resultado tiene sentido.</li>
+    </ol>
+    <div class="leg"><span><i>T</i> total, todo junto</span><span><i>Q</i> lo que queda</span><span><i style="color:var(--red)">?</i> lo que tengo que averiguar</span><span><i>×</i> cada uno lleva lo mismo</span></div>
+    <p class="ex" id="ex"></p>
+    <button type="button" id="say">Escuchar la explicación</button>
+  </section>
+  <div class="preview" id="pv"></div>
+</main>
+<footer class="band" style="padding-top:0;color:var(--mute);font-size:14px">Autora: María García Suárez · Licencia CC BY-NC-SA 4.0</footer>
+<div id="off" aria-hidden="true"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+{
+const $=s=>document.querySelector(s);
+const R={caja:{e:'📦',sg:'caja',pl:'cajas',f:1},cesta:{e:'🧺',sg:'cesta',pl:'cestas',f:1},bolsa:{e:'🛍️',sg:'bolsa',pl:'bolsas',f:1},mochila:{e:'🎒',sg:'mochila',pl:'mochilas',f:1},bus:{e:'🚌',sg:'autobús',pl:'autobuses',f:0},cajon:{e:'🗄️',sg:'cajón',pl:'cajones',f:0},plato:{e:'🍽️',sg:'plato',pl:'platos',f:0}};
+const O={caramelo:{e:'🍬',pl:'caramelos',f:0},manzana:{e:'🍎',pl:'manzanas',f:1},naranja:{e:'🍊',pl:'naranjas',f:1},lapiz:{e:'✏️',pl:'lápices',f:0},galleta:{e:'🍪',pl:'galletas',f:1},cera:{e:'🖍️',pl:'ceras',f:1},huevo:{e:'🥚',pl:'huevos',f:0},libro:{e:'📕',pl:'libros',f:0},cromo:{e:'🃏',pl:'cromos',f:0},pelota:{e:'🎾',pl:'pelotas',f:1},nino:{e:'🧒',pl:'niños',f:0},fresa:{e:'🍓',pl:'fresas',f:1}};
+const PAIRS={caja:['caramelo','galleta','lapiz','cera','huevo','cromo','pelota'],cesta:['manzana','naranja','huevo','fresa'],bolsa:['caramelo','manzana','naranja','pelota','galleta'],mochila:['libro','lapiz','cera','cromo'],bus:['nino'],cajon:['lapiz','libro','cromo','cera'],plato:['galleta','fresa','caramelo']};
+const OPN={suma:'Suma',resta:'Resta',mult:'Multiplicación',div:'División'};
+const LV={
+1:{suma:{a:[10,50],b:[1,40]},resta:{a:[20,99]}},
+2:{suma:{a:[100,500],b:[100,450]},resta:{a:[200,999]},mult:{n:[2,10],k:[2,10]}},
+3:{suma:{a:[1000,4999],b:[100,4999]},resta:{a:[1000,9999]},mult:{n:[2,9],k:[100,999]},div:{n:[2,9],q:[10,199]}},
+4:{suma:{a:[10000,49999],b:[1000,49999]},resta:{a:[10000,99999]},mult:{n:[10,49],k:[100,999]},div:{n:[2,9],q:[100,999]}},
+5:{suma:{a:[100000,499999],b:[10000,499999]},resta:{a:[100000,999999]},mult:{n:[10,99],k:[1000,9999]},div:{n:[10,49],q:[10,99]}},
+6:{suma:{a:[100000,999999],b:[100000,999999]},resta:{a:[100000,999999]},mult:{n:[100,999],k:[100,999]},div:{n:[10,99],q:[100,999]}}};
+const HINT={suma:'Pista: juntar → suma (+)',resta:'Pista: quitar → resta (−)',mult:'Pista: grupos iguales → multiplica (×)',div:'Pista: repartir → divide (÷)'};
+const SPK='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
+const rnd=([a,b])=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const fmt=n=>n.toLocaleString('es-ES');
+const cu=f=>f?'Cuántas':'Cuántos';
+const E=x=>`<span class="e">${x}</span>`,N=x=>`<span class="n">${fmt(x)}</span>`,L=x=>`<span class="l">${x}</span>`,Q='<span class="q">?</span>';
+const op=(s,c)=>`<span class="o ${c}">${s}</span>`;
+const row=(...p)=>`<div class="row">${p.join('')}</div>`;
+
+let st={lv:3,ops:['suma','resta','mult','div'],per:4,sheets:2,dua:false,hint:true,solu:true};
+try{Object.assign(st,JSON.parse(localStorage.getItem('tarjetasDatos')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('tarjetasDatos',JSON.stringify(st))}catch(e){}};
+let cards=[];
+
+function make(o,used){
+  const cfg=LV[st.lv][o];
+  for(let t=0;t<40;t++){
+    const rk=pick(Object.keys(R));let ok=PAIRS[rk];
+    if(rk==='bus'&&(o==='suma'||o==='resta'||(o==='mult'&&cfg.k[1]>70)||(o==='div'&&cfg.q[1]>70)))continue;
+    if(o==='resta')ok=ok.filter(x=>x!=='nino');
+    if(!ok.length)continue;
+    const r=R[rk],ob=O[pick(ok)];let c;
+    if(o==='mult'){const n=rnd(cfg.n),k=rnd(cfg.k);
+      c={rows:[row(E(r.e),op('=','eq'),N(n)),row(N(k),E(ob.e),op('×','x'),E(r.e)),row(L('T'),E(ob.e),op('=','eq'),Q)],
+      txt:`Hay ${fmt(n)} ${r.pl}. En cada ${r.sg} hay ${fmt(k)} ${ob.pl}. ¿${cu(ob.f)} ${ob.pl} hay en total?`,sol:`${fmt(n)} × ${fmt(k)} = ${fmt(n*k)} ${ob.pl}`,key:o+n+'-'+k}}
+    else if(o==='div'){const n=rnd(cfg.n),q=rnd(cfg.q),T=n*q;
+      c={rows:[row(L('T'),E(ob.e),op('=','eq'),N(T)),row(E(r.e),op('=','eq'),N(n)),row(N(1),E(r.e),op('=','eq'),Q,E(ob.e))],
+      txt:`Tenemos ${fmt(T)} ${ob.pl} y ${ob.f?'las':'los'} repartimos por igual en ${fmt(n)} ${r.pl}. ¿${cu(ob.f)} ${ob.pl} van en cada ${r.sg}?`,sol:`${fmt(T)} ÷ ${fmt(n)} = ${fmt(q)} ${ob.pl}`,key:o+T+'-'+n}}
+    else if(o==='suma'){const a=rnd(cfg.a),b=rnd(cfg.b);
+      c={rows:[row(E(r.e),N(a),E(ob.e)),row(op('+','ps'),E(r.e),N(b),E(ob.e)),row(L('T'),E(ob.e),op('=','eq'),Q)],
+      txt:`En ${r.f?'una':'un'} ${r.sg} hay ${fmt(a)} ${ob.pl} y en ${r.f?'otra':'otro'} hay ${fmt(b)}. ¿${cu(ob.f)} ${ob.pl} hay en total?`,sol:`${fmt(a)} + ${fmt(b)} = ${fmt(a+b)} ${ob.pl}`,key:o+a+'-'+b}}
+    else{const a=rnd(cfg.a),b=rnd([Math.max(1,Math.ceil(a*.1)),Math.floor(a*.9)]);
+      c={rows:[row(L('T'),E(ob.e),op('=','eq'),N(a)),row(op('−','mn'),N(b),E(ob.e)),row(L('Q'),E(ob.e),op('=','eq'),Q)],
+      txt:`Teníamos ${fmt(a)} ${ob.pl}. Hemos regalado ${fmt(b)}. ¿${cu(ob.f)} ${ob.pl} nos quedan?`,sol:`${fmt(a)} − ${fmt(b)} = ${fmt(a-b)} ${ob.pl}`,key:o+a+'-'+b}}
+    if(!used.has(c.key)){used.add(c.key);c.op=o;return c}
+  }
+}
+function generate(){
+  const ops=st.ops.filter(o=>LV[st.lv][o]);const list=ops.length?ops:Object.keys(LV[st.lv]);
+  const used=new Set();cards=[];
+  const total=st.per*st.sheets;
+  for(let i=0;i<total;i++)cards.push(make(list[i%list.length],used));
+  for(let i=cards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cards[i],cards[j]]=[cards[j],cards[i]]}
+  render();
+}
+function cardHTML(c,i,pv){
+  const d=st.dua;
+  return `<div class="card"><span class="num">${i+1}</span>${pv&&d?`<button type="button" class="spk" data-i="${i}" aria-label="Escuchar la tarjeta ${i+1}">${SPK}</button>`:''}
+  <div class="tit">DATOS</div><div class="rows">${c.rows.join('')}</div>
+  ${d?`<p class="txt">${c.txt}</p>${st.hint?`<div class="hint">${HINT[c.op]}</div>`:''}<div class="work">Operación</div><div class="sol">Solución: ______________</div>`:''}</div>`;
+}
+function sheetsHTML(pv){
+  const per=st.dua&&st.per===6?4:st.per;const out=[];
+  const head=`<div class="sh"><b>Problemas · ${st.lv}.º de Primaria</b><span>Nombre: ______________________ &nbsp; Fecha: __________</span></div>`;
+  const foot=st.dua?`<div class="ft"><span><i>1</i>Leo</span><span><i>2</i>Busco los datos</span><span><i>3</i>¿Qué me preguntan?</span><span><i>4</i>Elijo la operación</span><span><i>5</i>Calculo y reviso</span><span><b>T</b> total · <b>Q</b> lo que queda</span></div>`:'';
+  for(let s=0;s*per<cards.length;s++){
+    const part=cards.slice(s*per,s*per+per);
+    out.push(`<div class="sheet p${per}${st.dua?' d':''}">${head}<div class="grid">${part.map((c,k)=>cardHTML(c,s*per+k,pv)).join('')}</div>${foot}</div>`);
+  }
+  if(st.solu)out.push(`<div class="sheet"><div class="sh"><b>Soluciones · ${st.lv}.º de Primaria</b><span>Para el profesorado</span></div><div class="sols">${cards.map((c,i)=>`<div><b>${i+1}.</b>${c.sol}</div>`).join('')}</div></div>`);
+  return out;
+}
+function fit(root){
+  root.querySelectorAll('.card').forEach(card=>{
+    const rows=card.querySelector('.rows');let f=parseFloat(getComputedStyle(rows).fontSize),min=f*.45;
+    const over=()=>[...rows.children].some(r=>r.offsetWidth>rows.clientWidth)||card.scrollHeight>card.clientHeight+1;
+    while(over()&&f>min){f*=.94;rows.style.fontSize=f+'px'}
+  });
+}
+const pv=$('#pv'),off=$('#off');
+function scale(){pv.querySelectorAll('.frame').forEach(fr=>fr.style.setProperty('--s',fr.clientWidth/794))}
+const ro=new ResizeObserver(scale);ro.observe(pv);
+function render(){
+  pv.innerHTML=sheetsHTML(true).map(h=>`<div class="frame">${h}</div>`).join('');
+  off.innerHTML=sheetsHTML(false).join('');
+  scale();
+  document.fonts.ready.then(()=>{fit(pv);fit(off)});
+  const c=cards[0];
+  $('#ex').innerHTML=c?`<b>Ejemplo (tarjeta 1):</b> ${c.txt} ${st.hint?'<br>'+HINT[c.op]+'.':''}`:'';
+}
+function ui(){
+  $('#lv').innerHTML=[1,2,3,4,5,6].map(n=>`<label><input type="radio" name="lv" value="${n}" ${n==st.lv?'checked':''}><span>${n}.º</span></label>`).join('');
+  $('#ops').innerHTML=Object.keys(OPN).map(o=>`<label ${LV[st.lv][o]?'':'hidden'}><input type="checkbox" value="${o}" ${st.ops.includes(o)?'checked':''}><span>${OPN[o]}</span></label>`).join('');
+  $('#sheets').innerHTML=Array.from({length:10},(_,i)=>`<option value="${i+1}" ${i+1==st.sheets?'selected':''}>${i+1}</option>`).join('');
+  $('#per').value=String(st.per);$('#dua').checked=st.dua;$('#hint').checked=st.hint;$('#solu').checked=st.solu;
+  $('#hintW').hidden=!st.dua;$('#duaBox').hidden=!st.dua;
+  $('#per option[value="6"]').disabled=st.dua;
+}
+$('#f').addEventListener('change',e=>{
+  const t=e.target;let regen=true;
+  if(t.name==='lv'){st.lv=+t.value;ui()}
+  else if(t.closest('#ops')){st.ops=[...document.querySelectorAll('#ops input:checked')].map(x=>x.value)}
+  else if(t.id==='per')st.per=+t.value;
+  else if(t.id==='sheets')st.sheets=+t.value;
+  else if(t.id==='dua'){st.dua=t.checked;if(st.dua&&st.per===6){st.per=4;regen=true}else regen=false;ui()}
+  else if(t.id==='hint'){st.hint=t.checked;regen=false}
+  else if(t.id==='solu'){st.solu=t.checked;regen=false}
+  save();regen?generate():render();
+});
+$('#f').addEventListener('submit',e=>e.preventDefault());
+$('#gen').addEventListener('click',generate);
+
+function speak(text){
+  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='es-ES';u.rate=.9;speechSynthesis.speak(u)}catch(e){$('#st').textContent='La lectura en voz alta no está disponible en este dispositivo.'}
+}
+pv.addEventListener('click',e=>{const b=e.target.closest('.spk');if(!b)return;const c=cards[+b.dataset.i];speak(c.txt+(st.hint?' '+HINT[c.op].replace('Pista:','Pista.').replace(/[→()×÷+−]/g,' '):''))});
+$('#say').addEventListener('click',()=>speak('Cómo se resuelve una tarjeta. Uno: leo la tarjeta despacio. Dos: busco los datos, los números y los dibujos. Tres: pienso qué me preguntan, lo que hay en el recuadro con interrogación. Cuatro: elijo la operación. Juntar es sumar, quitar es restar, grupos iguales es multiplicar y repartir es dividir. Cinco: calculo y reviso si el resultado tiene sentido. La letra T significa el total. La letra Q significa lo que queda.'));
+
+$('#pdf').addEventListener('click',async()=>{
+  const btn=$('#pdf'),s=$('#st');
+  if(!window.html2canvas||!window.jspdf){s.textContent='No se ha podido cargar el generador de PDF. Recarga la página.';return}
+  btn.disabled=true;
+  try{
+    await document.fonts.ready;fit(off);
+    const pdf=new jspdf.jsPDF({unit:'mm',format:'a4'});
+    const sh=[...off.querySelectorAll('.sheet')];
+    for(let i=0;i<sh.length;i++){
+      s.textContent=`Preparando folio ${i+1} de ${sh.length}…`;
+      const cv=await html2canvas(sh[i],{scale:2,backgroundColor:'#ffffff',useCORS:true});
+      if(i)pdf.addPage();
+      pdf.addImage(cv.toDataURL('image/jpeg',.9),'JPEG',0,0,210,297);
+    }
+    pdf.save(`tarjetas-datos-${st.lv}-primaria${st.dua?'-DUA':''}.pdf`);
+    s.textContent='PDF descargado.';
+  }catch(e){
+    s.textContent='Error al generar el PDF.';
+  }finally{
+    btn.disabled=false;
+  }
+});
+
+ui();
+generate();
+}
+</script>
+</body>
+</html>
